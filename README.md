@@ -1,3 +1,3 @@
 # Midi-Telecaster-Guitar
 
-A real Telecaster guitar with analog tone but sends MIDI using piezos
+A Telecaster guitar with analog tone, LED visual feedback, and piezo MIDI. LEDs flash when played via USB power, and MIDI notes are sent through a Raspberry Pi Pico for use in DAW (Digital audio workstaion)
