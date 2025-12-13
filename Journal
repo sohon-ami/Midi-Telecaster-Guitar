@@ -1,0 +1,5 @@
+2025-12-13
+Today I worked on my Telecaster project. I planned how the piezos, LEDs, and Raspberry Pi Pico will connect.
+I made the PCB in EasyEDA for the 4 piezos and added all the pads and holes, set the board outline and fixed the DRC errors.
+Then I exported the ZIP file for JLCPCB. I also updated the BOM and README. Screenshots of the PCB were added to the README.
+Time worked : 4h
