@@ -1,0 +1,42 @@
+import time
+import board
+import analogio
+import usb_midi
+import adafruit_midi
+from adafruit_midi.note_on import NoteOn
+from adafruit_midi.note_off import NoteOff
+
+# -----------------------
+# Setup MIDI
+# -----------------------
+midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], out_channel=9)  # channel 10 = drums
+
+# -----------------------
+# Setup piezos
+# -----------------------
+piezo_pins = [board.A0, board.A1, board.A2, board.A3]
+piezos = [analogio.AnalogIn(pin) for pin in piezo_pins]
+
+# -----------------------
+# Configurable Drum Notes
+# -----------------------
+# Change these numbers to change the sound for each piezo
+# Typical GM Drum Notes: 36=Kick, 38=Snare, 42=Closed Hi-Hat, 46=Open Hi-Hat, 49=Cymbal
+piezo_to_drum = [36, 38, 42, 46]
+
+# -----------------------
+# Hit detection
+# -----------------------
+THRESHOLD = 20000
+DEBOUNCE_TIME = 0.1  # seconds
+
+last_hit = [0] * len(piezos)
+
+while True:
+    for i, piezo in enumerate(piezos):
+        if piezo.value > THRESHOLD and (time.monotonic() - last_hit[i]) > DEBOUNCE_TIME:
+            note = piezo_to_drum[i]
+            midi.send(NoteOn(note, 120))
+            time.sleep(0.02)
+            midi.send(NoteOff(note, 120))
+            last_hit[i] = time.monotonic()
